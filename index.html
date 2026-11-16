@@ -93,7 +93,6 @@ textarea{width:100%;min-height:150px;font-family:ui-monospace,Menlo,monospace;fo
     <label>Data inicial<input type="date" id="ini" value="2026-11-01"></label>
     <label>Data final<input type="date" id="fim" value="2026-11-30"></label>
     <button id="btnAt">Atualizar</button>
-    <button id="btnImp">Importar planilha</button>
     <button id="btnSair" class="sair">Sair</button>
   </div>
 </header>
@@ -113,14 +112,6 @@ textarea{width:100%;min-height:150px;font-family:ui-monospace,Menlo,monospace;fo
 </section>
 </section>
 </main>
-
-<dialog id="dlg">
-  <h2>Importar planilha</h2>
-  <p class="mut" style="margin:0 0 10px;font-size:14px">Copie na planilha as colunas <b>Data, Tipo, Categoria, Forma de Pagamento, Valor, Observação</b> (com o cabeçalho), cole abaixo e envie. Importe cada lote só uma vez, para não duplicar lançamentos.</p>
-  <textarea id="txt" placeholder="Cole aqui os dados copiados da planilha"></textarea>
-  <p id="erro" class="neg" style="margin:8px 0;font-size:14px"></p>
-  <div class="ctl" style="justify-content:flex-end"><button id="btnX">Cancelar</button><button id="btnOk" class="pri">Enviar ao banco</button></div>
-</dialog>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
@@ -230,10 +221,8 @@ $('btnEntrar').onclick=entrar;
 $('lSenha').onkeydown=function(e){if(e.key==='Enter')entrar()};
 $('btnSair').onclick=sair;
 $('btnAt').onclick=carregarDados;
+setInterval(function(){if(!$('painel').hidden)carregarDados()},60000);
 $('ini').onchange=render;$('fim').onchange=render;
-$('btnImp').onclick=function(){$('erro').textContent='';$('dlg').showModal()};
-$('btnX').onclick=function(){$('dlg').close()};
-$('btnOk').onclick=importar;
 
 (async function(){
   var s=await sb.auth.getSession();
