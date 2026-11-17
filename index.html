@@ -281,7 +281,7 @@ function render(){
   tabela('tRec',REC,soma(ent,function(x){return x.p}),tIn,'var(--in)','pag');
   var ult=f.slice().sort(function(x,y){return y.d-x.d});
   $('tb').innerHTML=ult.map(function(x){var e=x.t==='Entrada';
-    return'<tr><td>'+x.d.toLocaleDateString('pt-BR')+'</td><td class="'+(e?'pos':'neg')+'">'+x.t+'</td><td>'+esc(x.c)+'</td><td>'+esc(x.p)+'</td><td>'+esc(x.o)+'</td><td class="v '+(e?'pos':'neg')+'">'+(e?'+ ':'– ')+R$(x.v)+'</td></tr>'}).join('')||'<tr><td colspan="6" class="mut">Nenhum lançamento neste período.</td></tr>';
+    return'<tr><td>'+formatarData(x.d)+'</td><td class="'+(e?'pos':'neg')+'">'+x.t+'</td><td>'+esc(x.c)+'</td><td>'+esc(x.p)+'</td><td>'+esc(x.o)+'</td><td class="v '+(e?'pos':'neg')+'">'+(e?'+ ':'– ')+R$(x.v)+'</td></tr>'}).join('')||'<tr><td colspan="6" class="mut">Nenhum lançamento neste período.</td></tr>';
   $('tRec').closest('.card').hidden=FILTRO.cat.size>0;
   $('tDesp').closest('.card').hidden=FILTRO.pag.size>0;
   var nf=FILTRO.cat.size+FILTRO.pag.size;
@@ -295,6 +295,9 @@ var CH={};
 function p2(n){return String(n).padStart(2,'0')}
 function corVar(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
 function chaveMes(d){return d.getFullYear()+'-'+p2(d.getMonth()+1)}
+function formatarData(d){
+  return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+}
 function rotMes(k){var q=k.split('-');return MESES_C[+q[1]-1]+'/'+q[0].slice(2)}
 function listaMeses(){
   var ds=data.map(function(x){return x.d.getTime()});ds.push(Date.now());
